@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: 'Kantumruy Pro', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  padding: 0;
+
+  //background-color: #050607;
+  background-color: #070b11;
+}
+
+header,
+main,
+footer {
+  margin: 0 auto;
+}
+
+header {
+  max-width: 1920px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:focus-within {
+    border: none;
+    outline: none;
+  }
+}

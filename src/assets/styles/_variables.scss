@@ -1,0 +1,20 @@
+$max-width-container: 90%;
+$max-width-container-sm: 90%;
+$max-width-container-md: 660px;
+$max-width-container-lg: 660px;
+$max-width-container-xl: 1160px;
+$max-width-container-2xl: 1300px;
+$max-width-container-3xl: 1240px;
+
+$max-width-container-footer-lg: 864px;
+
+html.dark {
+  --el-color-primary: #03ed66;
+  --el-select-bg-color: #000;
+  --el-text-color-regular: #fff;
+  --el-fill-color-light: #111;
+  --el-border-radius-base: #050607;
+  --el-bg-color-overlay: #050607;
+  --el-border-color-light: #050607;
+  --el-text-color-placeholder: #414141;
+}
