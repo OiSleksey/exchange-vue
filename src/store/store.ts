@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { ref } from 'vue'
 
 const bitcoinData = [
   {
@@ -61,6 +62,37 @@ const fiatCurrencies: FiatList[] = [
   { code: 'huf', name: 'Hungarian Forint', symbol: 'Ft', flag: '🇭🇺' },
 ]
 
+const fiatCodesListAll = [
+  'usd',
+  'eur',
+  'uah',
+  'gbp',
+  'jpy',
+  'cny',
+  'inr',
+  'cad',
+  'aud',
+  'chf',
+  'sek',
+  'nok',
+  'dkk',
+  'pln',
+  'czk',
+  'brl',
+  'mxn',
+  'rub',
+  'hkd',
+  'sgd',
+  'krw',
+  'try',
+  'ils',
+  'zar',
+  'ron',
+  'huf',
+]
+
+const fiatCodesList = ['usd', 'eur']
+
 interface CryptoList {
   id: string
   symbol: string
@@ -97,9 +129,15 @@ interface FiatList {
   flag: string
 }
 
+interface SelectCoin {
+  symbol: string
+  image: string
+}
+
 export const useStore = defineStore('store', {
   state: () => ({
-    fiatList: [...fiatCurrencies] as FiatList,
+    // fiatList: [...fiatCurrencies] as FiatList,
+    fiatList: [...bitcoinData] as CryptoList,
     cryptoList: [...bitcoinData] as CryptoList,
     crypto: 'BTC',
     fiat: 'USD',
@@ -108,34 +146,52 @@ export const useStore = defineStore('store', {
     convertedAmount: null,
     cryptoOptions: ['BTC', 'ETH', 'USDT'],
     fiatOptions: ['USD', 'EUR', 'UAH', 'RUB'],
+    fromCoin: { ...bitcoinData[0] } as SelectCoin,
+    toCoin: { ...bitcoinData[0] } as SelectCoin,
+    fromAmount: 0 as number,
+    toAmount: 0 as number,
+    floatingRate: false as boolean,
+    isReverse: false as boolean,
+    isLoading: false as boolean,
   }),
   actions: {
-    async submitExchange() {
-      if (!this.amount || this.amount <= 0) return
-
-      const coinGeckoIds = {
-        BTC: 'bitcoin',
-        ETH: 'ethereum',
-        USDT: 'tether',
-      }
-
+    async submitExchange(fromId: string, toId: string) {
       try {
-        const cryptoId = coinGeckoIds[this.crypto]
-        const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price`, {
+        const response = await axios.get('https://api.coingecko.com/api/v3/simple/price', {
           params: {
-            ids: cryptoId,
-            vs_currencies: this.fiat.toLowerCase(),
+            ids: fromId,
+            vs_currencies: toId,
           },
         })
-        this.exchangeRate = response.data[cryptoId][this.fiat.toLowerCase()]
-        this.convertedAmount = this.amount * this.exchangeRate
-        // const url = 'https://t.me/your_operator_username';
-        // window.open(url, '_blank');
+
+        const rate = response.data[fromId]?.[toId]
+
+        if (typeof rate !== 'number') {
+          throw new Error('Invalid response from API')
+        }
+
+        return rate
       } catch (error) {
-        console.error('Ошибка при получении курса:', error)
-        this.exchangeRate = null
-        this.convertedAmount = null
+        console.error(error?.message || error)
+        return null
       }
+    },
+
+    deepCopyData<T>(data: T): T {
+      return JSON.parse(JSON.stringify(data))
+    },
+
+    reverseExchange() {
+      this.isReverse = !this.isReverse
+      // const copyFromList = this.deepCopyData(this.cryptoList)
+      // const copyToList = this.deepCopyData(this.fiatList)
+      // const copyFromCoin = this.deepCopyData(this.fromCoin)
+      // const copyToCoin = this.deepCopyData(this.toCoin)
+      //
+      // this.cryptoList = copyToList
+      // this.fiatList = copyFromList
+      // this.toCoin = copyFromCoin
+      // this.fromCoin = copyToCoin
     },
 
     async fetchCryptoList() {
@@ -156,11 +212,36 @@ export const useStore = defineStore('store', {
       }
 
       this.cryptoList = [...result]
+      this.fromCoin = { ...result[0] }
+
+      return result
+    },
+
+    getFiatImage(code) {
+      return `https://flagcdn.com/w40/${code.toLowerCase().slice(0, 2)}.png`
     },
 
     async fetchFiatList() {
-      const res = await axios.get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies')
-      return (res.data as string[]).map((code) => code.toUpperCase())
+      const res = await axios.get('https://api.coingecko.com/api/v3/exchange_rates')
+      const rates = res.data.rates
+
+      const result = fiatCodesList
+        .filter((code) => rates[code])
+        .map((code) => ({
+          id: code,
+          symbol: code,
+          name: rates[code].name,
+          unit: rates[code].unit,
+        }))
+      // image: this.getFiatImage(code),
+      this.toCoin = { ...result[0] }
+      this.fiatList = [...result]
+      return result
+    },
+
+    navigateToSupport() {
+      const url = 'https://t.me/globall_ex'
+      window.open(url, '_blank')
     },
   },
 })

@@ -25,8 +25,11 @@
   <el-dropdown @command="handleSelect" class="coin-dropdown-menu" trigger="click">
     <div class="coin-select">
       <div class="coin-option" v-if="select">
-        <div class="coin-option__img">
+        <div class="coin-option__img" v-if="select.image">
           <img :src="select.image" alt="coin" />
+        </div>
+        <div class="coin-option__unit" v-if="select.unit">
+          {{ select.unit }}
         </div>
         <div class="coin-option__label">{{ select.symbol.toUpperCase() }}</div>
       </div>
@@ -37,9 +40,13 @@
       <el-dropdown-menu>
         <el-dropdown-item v-for="item in list" :key="item.symbol" :command="item">
           <div class="coin-option">
-            <div class="coin-option__img">
+            <div class="coin-option__img" v-if="item.image">
               <img :src="item.image" alt="coin" />
             </div>
+            <div class="coin-option__unit" v-if="item.unit">
+              {{ item.unit }}
+            </div>
+
             <div class="coin-option__label">{{ item.symbol.toUpperCase() }}</div>
           </div>
         </el-dropdown-item>
@@ -125,8 +132,23 @@
       }
     }
 
+    &__unit {
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      //border-radius: 50%;
+      overflow: hidden;
+
+      color: #fff;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
     &__label {
-      min-width: 100px;
       color: #fff;
       display: flex;
       align-items: center;
@@ -136,6 +158,10 @@
       font-size: 28px;
       font-weight: 400;
       line-height: 1;
+
+      @include respond(md) {
+        min-width: 100px;
+      }
     }
   }
 

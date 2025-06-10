@@ -9,25 +9,22 @@
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useRouter } from 'vue-router'
 
-  const { cryptoList } = storeToRefs(useStore())
+  const store = useStore()
+  const { cryptoList, fromCoin, toCoin, fromAmount, toAmount, floatingRate, fiatList, isReverse } =
+    storeToRefs(store)
+  const rotation = ref(0)
+
   const router = useRouter()
-  function handleSelect(item: { symbol: string; image: string }) {
+
+  function handleSelectFrom(item: { symbol: string; image: string }) {
     fromCoin.value = item
   }
 
-  const coins = ['asd']
+  function handleSelectTo(item: { symbol: string; image: string }) {
+    toCoin.value = item
+  }
 
-  const fromCoin = ref<{
-    symbol: string
-    image: string
-  } | null>(cryptoList.value?.[0] || null)
-  const toCoin = ref<{
-    symbol: string
-    image: string
-  } | null>(cryptoList.value?.[0] || null)
-  const fromAmount = ref(10)
-  const toAmount = ref(10)
-  const floatingRate = ref(true)
+  const coins = ['asd']
 
   const state = reactive({
     crypto: 'BTC',
@@ -63,13 +60,16 @@
       // const url = 'https://t.me/your_operator_username';
       // window.open(url, '_blank');
     } catch (error) {
-      console.error('Ошибка при получении курса:', error)
+      console.error(error?.message || error)
       state.exchangeRate = null
       state.convertedAmount = null
     }
   }
 
-  onMounted(async () => {})
+  const handleReverse = () => {
+    store.reverseExchange()
+    rotation.value -= 360
+  }
 </script>
 
 <template>
@@ -77,13 +77,25 @@
     <h3 class="exchange-form__header">Start Exchange</h3>
 
     <div class="exchange-form__wrapper">
-      <div class="currency-row">
-        <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelect" />
-        <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" />
-      </div>
+      <template v-if="!isReverse">
+        <div class="currency-row">
+          <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelectFrom" />
+          <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" />
+        </div>
+      </template>
+      <template v-else>
+        <div class="currency-row">
+          <DropdownBase :list="fiatList" v-model="toCoin" @select="handleSelectTo" />
+          <InputNumberBase v-model="toAmount" :symbol="toCoin.symbol" />
+        </div>
+      </template>
 
       <div class="exchange-icon">
-        <div class="exchange-icon__img">
+        <div
+          class="exchange-icon__img"
+          @click="handleReverse"
+          :style="{ transform: `rotate(${rotation}deg)` }"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -98,65 +110,85 @@
           </svg>
         </div>
       </div>
-
-      <div class="currency-row">
-        <DropdownBase :list="cryptoList" v-model="toCoin" @select="handleSelect" />
-        <InputNumberBase v-model="fromAmount" :symbol="toCoin.symbol" />
-      </div>
+      <template v-if="!isReverse">
+        <div class="currency-row">
+          <DropdownBase :list="fiatList" v-model="toCoin" @select="handleSelectTo" />
+          <InputNumberBase v-model="toAmount" :symbol="toCoin.symbol" disabled />
+        </div>
+      </template>
+      <template v-else>
+        <div class="currency-row">
+          <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelectFrom" />
+          <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" disabled />
+        </div>
+      </template>
     </div>
 
     <div class="floating-rate">
-      <SwitcherBase />
+      <SwitcherBase v-model="floatingRate" />
     </div>
 
-    <PrimaryButton text="Exchange" @click="submitExchange" class="exchange-form__button" />
+    <PrimaryButton text="Exchange" @click="store.navigateToSupport" class="exchange-form__button" />
   </div>
 </template>
 
 <style scoped lang="scss">
   .currency-row {
     background-color: rgba(205, 222, 242, 0.02);
-    padding: 26px;
-    border-radius: 60px;
+    padding: 16px;
+    border-radius: 40px;
     border: 1px solid rgba(18, 48, 87, 0.8);
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+
+    @include respond(md) {
+      padding: 26px;
+      border-radius: 60px;
+      margin-bottom: 28px;
+      gap: 8px;
+      flex-direction: row;
+    }
   }
 
   .exchange-form {
-    width: 542px;
-    height: 470px;
-    background: #111827;
-    padding: 24px;
+    background: rgba(205, 222, 242, 0.02);
+    padding: 16px;
     border-radius: 16px;
     color: white;
     margin: auto;
     text-align: center;
+
+    @include respond(md) {
+      padding: 24px;
+    }
 
     &__wrapper {
       position: relative;
     }
 
     &__header {
-      margin-bottom: 28px;
+      margin-bottom: 20px;
 
       color: #f8f8f8;
       text-align: center;
-      font-size: 32px;
+      font-size: 20px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 1.12;
       letter-spacing: -0.64px;
+
+      @include respond(md) {
+        margin-bottom: 28px;
+      }
     }
 
     &__button {
       width: 100%;
     }
-  }
-
-  .currency-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 12px 0;
-    gap: 8px;
   }
 
   .exchange-icon {
@@ -184,6 +216,7 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
+      transition: transform 0.4s ease;
 
       svg {
         width: 100%;

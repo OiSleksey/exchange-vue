@@ -10,25 +10,14 @@
   import { useRouter } from 'vue-router'
   import type { FormInstance, FormRules } from 'element-plus'
 
-  const { cryptoList } = storeToRefs(useStore())
+  const store = useStore()
+  const { cryptoList, fromCoin, toCoin, fromAmount, toAmount, floatingRate, isReverse, fiatList } =
+    storeToRefs(store)
+
   const router = useRouter()
-  function handleSelect(item: { symbol: string; image: string }) {
-    fromCoin.value = item
-  }
-
-  const coins = ['asd']
-
-  const fromCoin = ref<{
-    symbol: string
-    image: string
-  } | null>(cryptoList.value?.[0] || null)
-  const toCoin = ref<{
-    symbol: string
-    image: string
-  } | null>(cryptoList.value?.[0] || null)
-  const fromAmount = ref(10)
-  const toAmount = ref(10)
-  const floatingRate = ref(true)
+  const isLoading = ref<boolean>(false)
+  const ruleFormRef = ref<FormInstance>(null)
+  const rotation = ref(0)
 
   const state = reactive({
     crypto: 'BTC',
@@ -39,6 +28,14 @@
     cryptoOptions: ['BTC', 'ETH', 'USDT'],
     fiatOptions: ['USD', 'EUR', 'UAH', 'RUB'],
   })
+
+  function handleSelectFrom(item: { symbol: string; image: string }) {
+    fromCoin.value = item
+  }
+
+  function handleSelectTo(item: { symbol: string; image: string }) {
+    toCoin.value = item
+  }
 
   const submitExchange = async () => {
     router.push('/convert')
@@ -64,7 +61,7 @@
       // const url = 'https://t.me/your_operator_username';
       // window.open(url, '_blank');
     } catch (error) {
-      console.error('Ошибка при получении курса:', error)
+      console.error(error?.message || error)
       state.exchangeRate = null
       state.convertedAmount = null
     }
@@ -89,10 +86,6 @@
     },
   ]
 
-  const isLoading = ref<boolean>(false)
-
-  const ruleFormRef = ref<FormInstance>(null)
-
   const form = reactive({
     address: '',
   })
@@ -105,16 +98,20 @@
   })
 
   const onSubmit = async (event, formEl: FormInstance | undefined) => {
-    console.log('onSubmit')
     const el = event?.currentTarget
     // postbackFunc()
     if (!formEl) return
 
     await formEl.validate((valid: boolean) => {
-      if (!valid) {
-        return
+      if (valid) {
+        store.navigateToSupport()
       }
     })
+  }
+
+  const handleReverse = () => {
+    store.reverseExchange()
+    rotation.value -= 360
   }
 </script>
 
@@ -151,13 +148,25 @@
     <div class="offer__description">1. Select the coins to exchange and enter the amount</div>
     <div class="exchange-form">
       <div class="exchange-form__wrapper">
-        <div class="currency-row">
-          <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelect" />
-          <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" />
-        </div>
+        <template v-if="!isReverse">
+          <div class="currency-row">
+            <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelectFrom" />
+            <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" />
+          </div>
+        </template>
+        <template v-else>
+          <div class="currency-row">
+            <DropdownBase :list="fiatList" v-model="toCoin" @select="handleSelectTo" />
+            <InputNumberBase v-model="toAmount" :symbol="toCoin.symbol" />
+          </div>
+        </template>
 
         <div class="exchange-icon">
-          <div class="exchange-icon__img">
+          <div
+            class="exchange-icon__img"
+            @click="handleReverse"
+            :style="{ transform: `rotate(${rotation}deg)` }"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -172,11 +181,18 @@
             </svg>
           </div>
         </div>
-
-        <div class="currency-row">
-          <DropdownBase :list="cryptoList" v-model="toCoin" @select="handleSelect" />
-          <InputNumberBase v-model="fromAmount" :symbol="toCoin.symbol" />
-        </div>
+        <template v-if="!isReverse">
+          <div class="currency-row">
+            <DropdownBase :list="fiatList" v-model="toCoin" @select="handleSelectTo" />
+            <InputNumberBase v-model="toAmount" :symbol="toCoin.symbol" disabled />
+          </div>
+        </template>
+        <template v-else>
+          <div class="currency-row">
+            <DropdownBase :list="cryptoList" v-model="fromCoin" @select="handleSelectFrom" />
+            <InputNumberBase v-model="fromAmount" :symbol="fromCoin.symbol" disabled />
+          </div>
+        </template>
       </div>
 
       <el-form
@@ -191,7 +207,7 @@
         </el-form-item>
 
         <div class="floating-rate">
-          <SwitcherBase />
+          <SwitcherBase v-model="floatingRate" />
         </div>
 
         <PrimaryButton
@@ -294,7 +310,7 @@
   }
 
   .exchange-form {
-    background: #111827;
+    //background: #111827;
     padding: 24px;
     border-radius: 16px;
     color: white;
@@ -372,7 +388,7 @@
     transform: translate(-50%, -50%);
     border-radius: 50%;
     border: 1px solid rgba(18, 48, 87, 0.8);
-    background-color: #121826;
+    background-color: #070b11;
     width: 50px;
     height: 50px;
     padding: 8px;
@@ -390,6 +406,7 @@
       width: 100%;
       height: 100%;
       cursor: pointer;
+      transition: transform 0.4s ease;
 
       svg {
         width: 100%;

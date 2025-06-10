@@ -2,7 +2,9 @@
   import LogoComponent from '@/components/base/LogoComponent.vue'
   import SupportButton from '@/components/base/buttons/SupportButton.vue'
   import TelegramButton from '@/components/base/buttons/TelegramButton.vue'
+  import { useStore } from '@/store/store.ts'
 
+  const store = useStore()
   const sponsors = [
     'img/footer/sponsors/sponsor-1.png',
     'img/footer/sponsors/sponsor-2.png',
@@ -29,8 +31,8 @@
             </div>
           </div>
           <div class="contacts">
-            <SupportButton />
-            <TelegramButton />
+            <SupportButton @click="store.navigateToSupport()" />
+            <TelegramButton @click="store.navigateToSupport()" />
           </div>
         </div>
       </div>
@@ -57,7 +59,7 @@
 <style scoped lang="scss">
   .footer {
     //background-color: #f45e5e;
-    background-color: #050607;
+    background-color: #0c1017;
 
     &__container {
       margin: 0 auto;
@@ -105,16 +107,31 @@
       //gap: 20px;
       //grid-template-columns: 1fr;
 
-      @include respond(lg) {
+      @include respond(md) {
         flex-direction: row;
         flex-wrap: wrap;
-        //grid-template-columns: min-content 1fr;
+        & > div:nth-child(1) {
+          flex: 1 1 auto;
+        }
 
-        & > div {
-          flex: 0 0 auto;
-          //&:last-child {
-          //  width: 100%; // всегда с новой строки
-          //}
+        & > div:nth-child(2) {
+          flex: 1 1 70%;
+        }
+        & > div:nth-child(3) {
+          flex-basis: 100%;
+        }
+      }
+
+      @include respond(lg) {
+        & > div:nth-child(1) {
+          flex: 1 0 auto;
+        }
+
+        & > div:nth-child(2) {
+          flex: 1 0 auto;
+        }
+        & > div:nth-child(3) {
+          flex: 1 0 auto;
         }
       }
     }
@@ -136,7 +153,7 @@
       flex-direction: column;
       gap: 16px;
 
-      @include respond(lg) {
+      @include respond(md) {
         flex-direction: row;
         justify-content: space-between;
       }
@@ -220,9 +237,13 @@
     .contacts {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+
       gap: 20px;
-      margin-left: auto;
+
+      @include respond(xl) {
+        justify-content: flex-end;
+        margin-left: auto;
+      }
     }
 
     .contact-support {
@@ -303,19 +324,18 @@
       }
 
       & span:last-child {
-        font-weight: 400;
+        font-weight: 500;
       }
     }
 
     &__links {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 16px;
-      justify-content: center;
+      justify-content: flex-start;
 
       @include respond(md) {
         flex-direction: row;
-        justify-content: flex-start;
       }
     }
 
@@ -341,14 +361,22 @@
       align-items: center;
       gap: 20px;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: flex-start;
+
+      @include respond(md) {
+        justify-content: space-between;
+      }
     }
 
     &__sponsor {
-      height: 36px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include respond(md) {
+        height: 36px;
+      }
 
       img {
         width: 100%;

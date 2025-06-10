@@ -2,7 +2,7 @@
   <div class="switcher-component">
     <div class="switcher-component__wrapper">
       <el-switch
-        v-model="isFloating"
+        v-model="value"
         :active-value="true"
         :inactive-value="false"
         class="custom-switch"
@@ -22,7 +22,7 @@
       </el-switch>
     </div>
     <div class="switcher-component__info">
-      <span class="switch-label">{{ isFloating ? 'Floating Rate' : 'Fixed Rate' }}</span>
+      <span class="switch-label">{{ value ? 'Floating Rate' : 'Fixed Rate' }}</span>
 
       <el-tooltip content="Description" placement="top">
         <el-icon><QuestionFilled /></el-icon>
@@ -34,8 +34,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { QuestionFilled } from '@element-plus/icons-vue'
-
-  const isFloating = ref(false)
+  const value = defineModel<boolean>()
 </script>
 
 <style scoped lang="scss">

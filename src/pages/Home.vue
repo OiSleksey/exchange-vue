@@ -9,31 +9,11 @@
   import UserReviews from '@/components/UserReviews.vue'
   import FAG from '@/components/FAG.vue'
 
-  const investment = ref(500)
-  const days = ref(30)
-  const earnings = computed(() => {
-    const count = investment.value * days.value * 0.65
-    const round = Math.floor(count)
-    return new Intl.NumberFormat('ru-RU').format(round)
-  })
-
-  const marksCurrencyMobile = [100, 200, 500, 1000, 2000, 5000, 10000, 20000]
-  const marksCurrencyDesktop = [10, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]
-  const marksDaysMobile = [7, 14, 20, 30, 40, 90]
-  const marksDaysDesktop = [4, 7, 10, 14, 20, 30, 60, 90]
-
-  const marksCurrency = ref(marksCurrencyMobile)
-  const marksDays = ref(marksDaysMobile)
-
   const handleResize = () => {
     const innerWidth = window.innerWidth
     if (innerWidth < 744) {
-      marksCurrency.value = [...marksCurrencyMobile]
-      marksDays.value = [...marksDaysMobile]
     }
     if (innerWidth >= 744) {
-      marksCurrency.value = [...marksCurrencyDesktop]
-      marksDays.value = [...marksDaysDesktop]
     }
   }
 
@@ -48,15 +28,10 @@
 </script>
 
 <template>
+  <div class="bg-substrate"></div>
   <Header />
   <main>
-    <Hero
-      v-model:investment="investment"
-      v-model:days="days"
-      :result="earnings"
-      :mark-currency="marksCurrency"
-      :mark-days="marksDays"
-    />
+    <Hero />
     <CryptoComponent />
     <DividerBase class="home-page__divider" />
     <AboutUs />
@@ -69,10 +44,69 @@
 </template>
 
 <style scoped lang="scss">
+  .bg-substrate {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+
+    &:before {
+      content: '';
+      top: 0;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+
+      width: calc((100vw / 2) - (1990px / 2));
+      background: linear-gradient(
+        to right,
+        rgba(7, 11, 17, 1) 0%,
+        rgba(7, 11, 17, 1) 80%,
+        rgba(7, 11, 17, 0.8) 94%,
+        rgba(7, 11, 17, 0) 100%
+      );
+    }
+
+    &:after {
+      content: '';
+      top: 0;
+      bottom: 0;
+      right: 0;
+      background: aquamarine;
+      position: absolute;
+      width: calc((100vw / 2) - (1990px / 2));
+      background: linear-gradient(
+        to left,
+        rgba(7, 11, 17, 1) 0%,
+        rgba(7, 11, 17, 1) 80%,
+        rgba(7, 11, 17, 0.8) 94%,
+        rgba(7, 11, 17, 0) 100%
+      );
+    }
+  }
   .home-page {
     &__divider {
       max-width: $max-width-container-3xl;
-      margin: 74px auto;
+      margin: 74px 20px;
+
+      @include respond(md) {
+        padding: 0 52px;
+      }
+
+      @include respond(lg) {
+        margin: 94px auto;
+        padding: 0 52px;
+      }
+
+      @include respond(xl) {
+        margin: 72px auto;
+        padding: 0 52px;
+      }
+
+      @include respond(3xl) {
+        padding: 0 0;
+        margin: 74px auto;
+      }
     }
   }
   .wrap-money {

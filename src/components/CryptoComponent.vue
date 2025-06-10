@@ -57,25 +57,48 @@
   .crypto-component {
     max-width: 100%;
     overflow: hidden;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(7, 11, 17, 1) 0%,
+        rgba(7, 11, 17, 0.3) 40%,
+        rgba(7, 11, 17, 0) 100%
+      );
+      pointer-events: none;
+    }
 
     &__header {
       margin-bottom: 12px;
 
       color: #f8f8f8;
       text-align: center;
-      font-size: 32px;
+      font-size: 20px;
       font-style: normal;
       font-weight: 700;
       line-height: 1.7;
       text-transform: uppercase;
+
+      @include respond(md) {
+        font-size: 32px;
+      }
     }
 
     &__list {
-      padding: 16px 0 20px 0;
+      padding: 8px 0 10px 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 28px;
+      gap: 20px;
+
+      @include respond(md) {
+        gap: 28px;
+        padding: 16px 0 20px 0;
+      }
 
       &:first-child {
         justify-content: flex-start;
