@@ -2,9 +2,10 @@
   import LogoComponent from '@/components/base/LogoComponent.vue'
   import SupportButton from '@/components/base/buttons/SupportButton.vue'
   import TelegramButton from '@/components/base/buttons/TelegramButton.vue'
-  import { useStore } from '@/store/store.ts'
+  import { useNavigation } from '@/composables/navigation.ts'
 
-  const store = useStore()
+  const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
+
   const sponsors = [
     'img/footer/sponsors/sponsor-1.png',
     'img/footer/sponsors/sponsor-2.png',
@@ -31,8 +32,8 @@
             </div>
           </div>
           <div class="contacts">
-            <SupportButton @click="store.navigateToSupport()" />
-            <TelegramButton @click="store.navigateToSupport()" />
+            <SupportButton @click="navigateToSupport()" />
+            <TelegramButton @click="navigateToSupport()" />
           </div>
         </div>
       </div>
@@ -59,40 +60,47 @@
 <style scoped lang="scss">
   .footer {
     //background-color: #f45e5e;
-    background-color: #0c1017;
+    padding: 0 8px 8px 8px;
+
+    @include respond(md) {
+      padding: 0 16px 16px 16px;
+    }
 
     &__container {
+      background-color: #0c1017;
+      border-radius: 20px;
       margin: 0 auto;
-      max-width: $max-width-container;
-      padding: 60px 0 28px 0;
+      //max-width: $max-width-container;
+      padding: 28px 20px;
       display: flex;
       flex-direction: column;
 
       @include respond(sm) {
-        padding: 60px 0 28px 0;
-        max-width: $max-width-container-sm;
+        padding: 28px 20px;
+        //max-width: $max-width-container-sm;
       }
 
       @include respond(md) {
-        padding: 60px 0 44px 0;
-        max-width: $max-width-container-md;
+        padding: 60px 44px;
+        //max-width: $max-width-container-md;
       }
 
       @include respond(lg) {
-        padding: 60px 0 44px 0;
-        max-width: $max-width-container-footer-lg;
+        padding: 60px 44px;
+        //max-width: $max-width-container-footer-lg;
       }
 
       @include respond(xl) {
-        max-width: $max-width-container-xl;
+        padding: 60px 44px;
+        //max-width: $max-width-container-xl;
       }
 
       @include respond(2xl) {
-        max-width: $max-width-container-2xl;
+        padding: 60px 70px;
       }
 
       @include respond(3xl) {
-        max-width: $max-width-container-3xl;
+        //max-width: $max-width-container-3xl;
       }
     }
 
@@ -379,7 +387,7 @@
       }
 
       img {
-        width: 100%;
+        width: auto;
         max-width: 100%;
         max-height: 100%;
         opacity: 0.5;

@@ -8,6 +8,9 @@
   import SwitcherBase from '@/components/base/SwitcherBase.vue'
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useRouter } from 'vue-router'
+  import { useNavigation } from '@/composables/navigation.ts'
+
+  const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
   const store = useStore()
   const { cryptoList, fromCoin, toCoin, fromAmount, toAmount, floatingRate, fiatList, isReverse } =
@@ -128,7 +131,7 @@
       <SwitcherBase v-model="floatingRate" />
     </div>
 
-    <PrimaryButton text="Exchange" @click="store.navigateToSupport" class="exchange-form__button" />
+    <PrimaryButton text="Exchange" @click="navigateToSupport" class="exchange-form__button" />
   </div>
 </template>
 

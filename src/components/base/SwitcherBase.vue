@@ -24,18 +24,62 @@
     <div class="switcher-component__info">
       <span class="switch-label">{{ value ? 'Floating Rate' : 'Fixed Rate' }}</span>
 
-      <el-tooltip content="Description" placement="top">
-        <el-icon><QuestionFilled /></el-icon>
-      </el-tooltip>
+      <el-popover
+        :content="description"
+        placement="top"
+        class="wide-popover"
+        popper-class="description-popover"
+      >
+        <template #reference>
+          <el-icon><QuestionFilled /></el-icon>
+        </template>
+      </el-popover>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { QuestionFilled } from '@element-plus/icons-vue'
   const value = defineModel<boolean>()
+
+  const fixedRateDescription =
+    'We fix the exchange rate to shield you from market volatility. The rate stays locked as long as the deposit is confirmed within 30 minutes.'
+  const floatingRateDescription =
+    'With the floating rate option, the final amount of cryptocurrency you receive may be greater or less than the original estimate due to changes in market prices.'
+
+  const description = computed(() => {
+    if (!value.value) return fixedRateDescription
+    return floatingRateDescription
+  })
 </script>
+
+<style lang="scss">
+  .el-popper.description-popover {
+    max-width: none; /* убираем ограничение по умолчанию */
+    width: 300px !important;
+    background-color: rgba(11, 15, 22, 0.94) !important;
+    max-height: none !important;
+    overflow: hidden;
+
+    color: #f8f8f8 !important;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.33; /* 133.333% */
+    border-radius: 20px !important;
+    border: 1px solid #117af6 !important;
+
+    &__arrow {
+      color: #f8f8f8 !important;
+
+      &:before {
+        background-color: rgba(11, 15, 22, 0.94) !important;
+      }
+    }
+  }
+</style>
 
 <style scoped lang="scss">
   .switcher-component {

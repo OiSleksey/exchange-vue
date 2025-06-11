@@ -9,6 +9,9 @@
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useRouter } from 'vue-router'
   import type { FormInstance, FormRules } from 'element-plus'
+  import { useNavigation } from '@/composables/navigation.ts'
+
+  const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
   const store = useStore()
   const { cryptoList, fromCoin, toCoin, fromAmount, toAmount, floatingRate, isReverse, fiatList } =
@@ -104,7 +107,7 @@
 
     await formEl.validate((valid: boolean) => {
       if (valid) {
-        store.navigateToSupport()
+        navigateToSupport()
       }
     })
   }
@@ -131,6 +134,7 @@
           </div>
           <div v-if="track.length !== index + 1" class="track__arrow">
             <svg
+              class="track__svg desktop"
               xmlns="http://www.w3.org/2000/svg"
               width="99"
               height="12"
@@ -138,6 +142,17 @@
               fill="none"
             >
               <path d="M99 6L89 0.226497V11.7735L99 6ZM0 6V7H90V6V5H0V6Z" fill="#596376" />
+            </svg>
+
+            <svg
+              class="track__svg mobile"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="12"
+              viewBox="0 0 20 12"
+              fill="none"
+            >
+              <path d="M20 6L10 0.226497V11.7735L20 6ZM0 6V7H11V6V5H0V6Z" fill="#596376" />
             </svg>
           </div>
         </div>
@@ -230,7 +245,26 @@
   .offer {
     max-width: $max-width-container-3xl;
     margin: 0 auto;
-    padding: 58px 0 190px 0;
+    padding: 40px 20px 100px 20px;
+
+    @include respond(md) {
+      padding: 56px 45px 100px 45px;
+    }
+
+    @include respond(lg) {
+      padding: 56px 0 100px 0;
+      max-width: $max-width-container-lg;
+    }
+
+    @include respond(xl) {
+      max-width: $max-width-container-3xl;
+      padding: 56px 76px 100px 76px;
+    }
+
+    @include respond(2xl) {
+      max-width: $max-width-container-3xl;
+      padding: 58px 0 190px 0;
+    }
 
     &__header {
       margin-bottom: 50px;
@@ -239,8 +273,16 @@
       text-align: center;
       font-size: 48px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 56px;
+
+      @include respond(xl) {
+        margin-bottom: 50px;
+      }
+
+      @include respond(2xl) {
+        margin-bottom: 50px;
+      }
     }
 
     &__description {
@@ -250,12 +292,28 @@
       text-align: center;
       font-size: 28px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1.2;
+
+      @include respond(xl) {
+        margin-bottom: 30px;
+      }
+
+      @include respond(2xl) {
+        margin-bottom: 30px;
+      }
     }
 
     &__track {
       margin-bottom: 70px;
+
+      @include respond(xl) {
+        margin-bottom: 70px;
+      }
+
+      @include respond(2xl) {
+        margin-bottom: 70px;
+      }
     }
   }
 
@@ -263,15 +321,37 @@
     &__list {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      @include respond(md) {
+        gap: 12px;
+        justify-content: space-between;
+      }
+
+      @include respond(xl) {
+        gap: 12px;
+      }
+
+      @include respond(2xl) {
+        gap: 24px;
+      }
     }
 
     &__item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 12px;
+
+      @include respond(xl) {
+        gap: 12px;
+      }
+
+      @include respond(2xl) {
+        gap: 24px;
+      }
 
       &.active {
         & .track__title {
@@ -287,47 +367,115 @@
 
     &__title {
       color: #596376;
-      font-size: 32px;
+      font-size: 16px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 1.75;
+
+      @include respond(md) {
+        font-size: 16px;
+      }
+
+      @include respond(lg) {
+        font-size: 16px;
+      }
+
+      @include respond(xl) {
+        font-size: 32px;
+      }
+
+      @include respond(2xl) {
+        font-size: 32px;
+      }
     }
 
     &__arrow {
-      width: 99px;
+      width: 20px;
 
-      svg {
-        width: 100%;
+      @include respond(md) {
+        width: 50px;
+      }
+
+      @include respond(lg) {
+        width: 50px;
+      }
+
+      @include respond(xl) {
+        width: 50px;
+      }
+
+      @include respond(2xl) {
+        width: 99px;
+      }
+
+      //svg {
+      //  width: 100%;
+      //}
+    }
+
+    &__svg {
+      width: 100%;
+
+      &.desktop {
+        display: none;
+
+        @include respond(md) {
+          display: block;
+        }
+      }
+
+      &.mobile {
+        display: block;
+
+        @include respond(md) {
+          display: none;
+        }
       }
     }
   }
 
-  .currency-row {
-    background-color: rgba(205, 222, 242, 0.02);
-    padding: 26px;
-    border-radius: 60px;
-    border: 1px solid rgba(18, 48, 87, 0.8);
-  }
-
   .exchange-form {
     //background: #111827;
-    padding: 24px;
+    //padding: 24px;
     border-radius: 16px;
     color: white;
     margin: auto;
     text-align: center;
+
+    @include respond(lg) {
+      padding: 0;
+    }
+
+    @include respond(xl) {
+      padding: 0;
+    }
+
+    @include respond(2xl) {
+      padding: 24px;
+    }
 
     &__wrapper {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 20px;
+      flex-direction: column;
+
+      @include respond(xl) {
+        flex-direction: row;
+        gap: 10px;
+      }
 
       & .currency-row {
-        flex: 1 1 50%;
-        max-width: calc(50% - 5px);
+        flex: 1 1 100%;
+        //max-width: calc(50% - 5px);
+
+        @include respond(xl) {
+          flex: 1 1 50%;
+          max-width: calc(50% - 5px);
+        }
       }
     }
 
@@ -361,24 +509,47 @@
 
       :deep(.el-input__wrapper) {
         border-radius: 20px;
-        border: 1px solid rgba(18, 48, 87, 0.6);
-        //background: rgba(205, 222, 242, 0.2);
-        //box-shadow: 0px 4px 8.3px 0px rgba(0, 0, 0, 0.2);
+        background-color: rgba(205, 222, 242, 0.02);
+        border: 1px solid rgba(18, 48, 87, 0.8);
+        //box-shadow: 0px 0px 0px 1px rgba(18, 48, 87, 0.8);
         padding: 16px 20px;
 
         font-size: 24px;
         font-style: normal;
         font-weight: 400;
         line-height: 1;
+
+        @include respond(xl) {
+          padding: 16px 20px;
+          font-size: 24px;
+        }
       }
     }
   }
 
   .currency-row {
+    background-color: rgba(205, 222, 242, 0.02);
+    padding: 16px;
+    border-radius: 40px;
+    border: 1px solid rgba(18, 48, 87, 0.8);
     display: flex;
     justify-content: space-between;
-    margin: 12px 0;
+    width: 100%;
+    flex-direction: column;
     gap: 8px;
+    align-items: center;
+
+    @include respond(md) {
+      padding: 26px;
+      border-radius: 60px;
+      //margin-bottom: 28px;
+      gap: 8px;
+      flex-direction: row;
+    }
+
+    @include respond(xl) {
+      margin: 12px 0;
+    }
   }
 
   .exchange-icon {

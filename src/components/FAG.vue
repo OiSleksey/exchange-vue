@@ -129,6 +129,10 @@
       }
 
       @include respond(xl) {
+        max-width: none;
+      }
+
+      @include respond(2xl) {
         max-width: $max-width-container-3xl;
       }
 

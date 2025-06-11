@@ -19,11 +19,15 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 6px 26px;
+    padding: 6px 22px;
     border-radius: 20px;
     border: 2px solid #117af6;
     background-color: rgba(6, 90, 190, 0.2);
     transition: background-color 0.2s;
+
+    @include respond(lg) {
+      padding: 6px 26px;
+    }
 
     span {
       color: #020c19;

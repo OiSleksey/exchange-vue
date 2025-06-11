@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const bitcoinData = [
   {
@@ -237,11 +238,6 @@ export const useStore = defineStore('store', {
       this.toCoin = { ...result[0] }
       this.fiatList = [...result]
       return result
-    },
-
-    navigateToSupport() {
-      const url = 'https://t.me/globall_ex'
-      window.open(url, '_blank')
     },
   },
 })

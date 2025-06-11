@@ -2,20 +2,14 @@
   import OutlineButton from '@/components/base/buttons/OutlineButton.vue'
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import LogoComponent from '@/components/base/LogoComponent.vue'
-  import { useRouter } from 'vue-router'
-  import { useStore } from '@/store/store.ts'
   import BurgerButton from '@/components/base/buttons/BurgerButton.vue'
+  import { useNavigation } from '@/composables/navigation.ts'
+
+  const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
   const { isDisplayDashboard = false } = defineProps<{
     isDisplayDashboard?: boolean
   }>()
-
-  const store = useStore()
-  const router = useRouter()
-
-  const handleClick = () => {
-    router.push('/')
-  }
 </script>
 
 <template>
@@ -23,11 +17,11 @@
     <div class="header__container">
       <LogoComponent variant="dark" />
       <div class="header__controls desktop">
-        <OutlineButton v-if="isDisplayDashboard" @click="handleClick" />
-        <PrimaryButton @click="store.navigateToSupport" />
+        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome" />
+        <PrimaryButton @click="navigateToSupport" />
       </div>
       <div class="header__controls mobile">
-        <BurgerButton @click="store.navigateToSupport" />
+        <BurgerButton :is-display-dashboard="isDisplayDashboard" />
       </div>
     </div>
   </header>
@@ -54,14 +48,16 @@
       box-shadow: 0px 4px 8.3px 0px rgba(0, 0, 0, 0.09);
 
       @include respond(md) {
+        padding: 15px 34px;
+      }
+      @include respond(lg) {
+        padding: 15px 44px;
+      }
+
+      @include respond(2xl) {
         padding: 15px 66px;
       }
     }
-
-    //
-    //@include respond(xl) {
-    //  background: red;
-    //}
 
     &__logo {
     }

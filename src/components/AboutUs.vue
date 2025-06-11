@@ -94,7 +94,6 @@
 
 <style scoped lang="scss">
   .about-us {
-    max-width: $max-width-container-3xl;
     margin: 0 auto;
     padding: 0 20px;
 
@@ -104,6 +103,10 @@
 
     @include respond(xl) {
       padding: 0 52px;
+    }
+
+    @include respond(2xl) {
+      max-width: $max-width-container-3xl;
     }
 
     @include respond(3xl) {
@@ -275,7 +278,7 @@
       }
 
       @include respond(3xl) {
-        gap: 118px;
+        gap: 88px;
       }
     }
 
