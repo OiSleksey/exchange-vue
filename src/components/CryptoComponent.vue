@@ -3,6 +3,10 @@
   import { storeToRefs } from 'pinia'
   import { computed } from 'vue'
 
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
   const { cryptoList } = storeToRefs(useStore())
 
   const countByRow = computed(() => {
@@ -17,7 +21,7 @@
 
 <template>
   <div class="crypto-component">
-    <h4 class="crypto-component__header">1000+ cryptocurrencies</h4>
+    <h4 class="crypto-component__header">{{ t('crypto_component_header') }}</h4>
     <div class="crypto-component__body">
       <div class="crypto-component__list">
         <div class="crypto-component__item" v-for="item in firstRow" :key="item.id">

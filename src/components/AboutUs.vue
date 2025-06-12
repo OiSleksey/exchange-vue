@@ -1,55 +1,67 @@
 <script setup lang="ts">
-  const reliability = {
-    title: 'Reliability Without Compromise',
-    description:
-      "We lock in the exchange rate at the moment of the transaction and charge no hidden fees. You always know exactly how much you'll receive.",
-    url: '/img/about-us/reliability.png',
-    alt: 'reliability',
-  }
+  import {computed} from "vue"
 
-  const speed = {
-    title: 'Speed — From Just 5 Minutes',
-    description:
-      'Our optimized algorithms and network fee settings ensure most exchanges are completed within 30 minutes — often much faster.',
-    url: '/img/about-us/speed.png',
-    alt: 'speed',
-  }
+  import { useI18n } from 'vue-i18n'
 
-  const noRegistration = {
-    title: 'No Registration, No Limits',
-    description:
-      'Exchange without creating an account. We don’t store your data — complete privacy and freedom of use.',
-    url: '/img/about-us/limits.png',
-    alt: 'limits',
-  }
+  const { t } = useI18n()
 
-  const services = [
-    {
-      url: '/img/about-us/no_hidden_fees.png',
-      text: 'No hidden fees',
-      alt: 'no hidden',
-    },
-    {
-      url: '/img/about-us/24-7-support.png',
-      text: '24/7 support',
-      alt: '24/7',
-    },
-    {
-      url: '/img/about-us/cash_available.png',
-      text: 'Cash available in over 50 countries',
-      alt: 'available',
-    },
-    {
-      url: '/img/about-us/fast_transactions.png',
-      text: 'Fast transactions (average time: 5–30 minutes)',
-      alt: 'fast',
-    },
-  ]
+  const reliability = computed(()=> {
+   return  {
+      title: t('about_us_reliability_title'),
+        description: t('about_us_reliability_description'),
+      url: '/img/about-us/reliability.png',
+      alt: 'reliability',
+    }
+  })
+
+  const speed = computed(()=> {
+    return  {
+      title: t('about_us_speed_title'),
+      description: t('about_us_speed_description'),
+      url: '/img/about-us/speed.png',
+      alt: 'speed',
+    }
+  })
+
+  const noRegistration = computed(()=> {
+    return  {
+      title: t('about_us_no_registration_title'),
+      description: t('about_us_no_registration_description'),
+      url: '/img/about-us/limits.png',
+      alt: 'limits',
+    }
+  })
+
+  const services = computed(()=> {
+    return   [
+      {
+        url: '/img/about-us/no_hidden_fees.png',
+        text:   t('about_us_service_no_hidden_fees'),
+        alt: 'no hidden',
+      },
+      {
+        url: '/img/about-us/24-7-support.png',
+        text:   t('about_us_service_24_7_support'),
+        alt: '24/7',
+      },
+      {
+        url: '/img/about-us/cash_available.png',
+        text:   t('about_us_service_cash_available'),
+        alt: 'available',
+      },
+      {
+        url: '/img/about-us/fast_transactions.png',
+        text:   t('about_us_service_fast_transactions'),
+        alt: 'fast',
+      },
+    ]
+  })
+
 </script>
 
 <template>
   <div class="about-us">
-    <h2 class="about-us__header">About US</h2>
+    <h2 class="about-us__header">{{ t('about_us_header') }}</h2>
     <div class="about-us__top">
       <div class="about-us__card full">
         <div class="about-us__img">
@@ -57,7 +69,7 @@
         </div>
         <div class="about-us__info">
           <div class="about-us__title">{{ reliability.title }}</div>
-          <div class="about-us__description">{{ reliability.description }}</div>
+          <div class="about-us__description">{{ reliability.description}}</div>
         </div>
       </div>
       <div class="about-us__card part">
@@ -85,7 +97,7 @@
           <div class="about-us__icon">
             <img :src="item.url" :alt="item.alt" />
           </div>
-          <div class="about-us__text">{{ item.text }}</div>
+          <div class="about-us__text">{{  item.text }}</div>
         </div>
       </div>
     </div>

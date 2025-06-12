@@ -3,6 +3,9 @@
   import OutlineButton from '@/components/base/buttons/OutlineButton.vue'
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useNavigation } from '@/composables/navigation.ts'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
@@ -62,8 +65,12 @@
     </template>
     <template #default>
       <div class="burger-content">
-        <PrimaryButton @click="navigateToSupport" />
-        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome" />
+        <PrimaryButton @click="navigateToSupport" >
+          {{ t('header_menu_home') }}
+        </PrimaryButton>
+        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome" >
+          {{ t('header_menu_partner') }}
+        </OutlineButton>
       </div>
     </template>
   </el-popover>

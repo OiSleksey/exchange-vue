@@ -1,0 +1,102 @@
+{
+  "about_us_header": "About US",
+  "about_us_reliability_title": "Reliability Without Compromise",
+  "about_us_reliability_description": "We lock in the exchange rate at the moment of the transaction and charge no hidden fees. You always know exactly how much you'll receive.",
+  "about_us_speed_title": "Speed — From Just 5 Minutes",
+  "about_us_speed_description": "Our optimized algorithms and network fee settings ensure most exchanges are completed within 30 minutes — often much faster.",
+  "about_us_no_registration_title": "No Registration, No Limits",
+  "about_us_no_registration_description": "Exchange without creating an account. We don’t store your data — complete privacy and freedom of use.",
+  "about_us_service_no_hidden_fees": "No hidden fees",
+  "about_us_service_24_7_support": "24/7 support",
+  "about_us_service_cash_available": "Cash available in over 50 countries",
+  "about_us_service_fast_transactions": "Fast transactions (average time: 5–30 minutes)",
+  "hero_header": "Exchange cryptocurrency easily, quickly, and with no hidden fees.",
+  "hero_description": "is an anonymous and instant cryptocurrency exchange. Over 1,000 trading pairs, fixed rates, and",
+  "hero_description_logo": "GlobalE",
+  "hero_description_support": "24/7 support.",
+  "footer_office_name": "Safelement Limited,",
+  "footer_office_location": "Office 1111, Suite 1102, Lee Garden One, 33 Hysan Avenue, Causeway Bay, Hong Kong",
+  "footer_terms": "Terms of Use",
+  "footer_privacy": "Privacy Policy",
+  "user_reviews_header": "User Reviews",
+  "faq_header": "FAQ — Frequently Asked Questions",
+  "faq_1_title": "How long does the exchange take?",
+  "faq_1_desc": "Usually between 5 and 30 minutes, depending on network congestion. We begin processing immediately after payment is confirmed.",
+  "faq_2_title": "Are there any hidden fees?",
+  "faq_2_desc": "No. We lock the rate and show the final amount before the exchange starts. Everything is fully transparent.",
+  "faq_3_title": "Do I need to register?",
+  "faq_3_desc": "No. You can exchange cryptocurrency without creating an account. It’s simple and confidential.",
+  "faq_4_title": "What if something goes wrong?",
+  "faq_4_desc": "Contact our 24/7 support team via live chat or email — we're always ready to help.",
+  "crypto_component_header": "1000+ cryptocurrencies",
+  "offer_details": "1. Details",
+  "header_menu_home": "Dashboard",
+  "header_menu_partner": "Become a partner",
+  "exchange_button": "Exchange",
+
+  "header_menu_support": "Support",
+  "reviews": {
+    "1": {
+      "name": "Pavel, Startup Founder",
+      "text": "Tested 5 different exchangers — this one turned out to be the fastest."
+    },
+    "2": {
+      "name": "Arina, Student",
+      "text": "I move coins between wallets — it’s always quick and stress-free."
+    },
+    "3": {
+      "name": "Stepan, DevOps Engineer",
+      "text": "No KYC needed — that’s a win. Plus, love the unique pairs like SOL ↔ TRX."
+    },
+    "4": {
+      "name": "SatoshiPlay, Blogger",
+      "text": "Trusted exchange. Was skeptical at first — now I recommend it to my followers."
+    },
+    "5": {
+      "name": "Alexander, Game Developer",
+      "text": "Swapped BTC to USDT in 10 minutes. Impressed there’s no verification needed."
+    },
+    "6": {
+      "name": "Danil, Analyst",
+      "text": "Third exchange this week — smooth every time. They don’t even store wallet addresses."
+    },
+    "7": {
+      "name": "Elena V., HR Manager",
+      "text": "Friends recommended it. Now I’m sending links to my colleagues too."
+    },
+    "8": {
+      "name": "Max DeFi, Crypto Enthusiast",
+      "text": "I like that you instantly see how much you’ll receive. No surprises from volatility."
+    },
+    "9": {
+      "name": "Igor, Freelancer",
+      "text": "Exchanged USDT to BNB in 7 minutes. Surprised how simple it was. Highly recommend!"
+    },
+    "10": {
+      "name": "Maria, Marketing Specialist",
+      "text": "Use it regularly. One of the most honest exchanges I’ve tried. Never let me down."
+    },
+    "11": {
+      "name": "Artem, Crypto Trader",
+      "text": "Great rates and a clean interface. Support responds quickly."
+    },
+    "12": {
+      "name": "Natali, UI Designer",
+      "text": "Perfect for quick small exchanges. No login required — love it."
+    }
+  },
+  "rate": {
+    "fixed_rate_title": "Floating Rate",
+    "floating_rate_title": "Fixed Rate",
+    "fixed_rate_description": "We fix the exchange rate to shield you from market volatility. The rate stays locked as long as the deposit is confirmed within 30 minutes.",
+    "floating_rate_description": "With the floating rate option, the final amount of cryptocurrency you receive may be greater or less than the original estimate due to changes in market prices."
+  },
+  "convert_hero_title": "Cryptocurrency Converter",
+  "convert_hero_1_select": "1. Select the coins to exchange and enter the amount",
+  "convert_hero_1_stack": "1. Details",
+  "convert_hero_2_stack": "2. Deposit",
+  "convert_hero_3_stack": "3. Confirmation",
+  "convert_hero_4_stack": "4. Exchange",
+  "convert_address_label": "Enter XMR Address",
+  "convert_address_placeholder": "Enter the address here"
+}

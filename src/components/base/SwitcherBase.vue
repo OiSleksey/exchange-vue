@@ -22,7 +22,7 @@
       </el-switch>
     </div>
     <div class="switcher-component__info">
-      <span class="switch-label">{{ value ? 'Floating Rate' : 'Fixed Rate' }}</span>
+      <span class="switch-label">{{ value ?  t('rate.fixed_rate_title') :  t('rate.floating_rate_title') }}</span>
 
       <el-popover
         :content="description"
@@ -41,16 +41,18 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { QuestionFilled } from '@element-plus/icons-vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
   const value = defineModel<boolean>()
 
-  const fixedRateDescription =
-    'We fix the exchange rate to shield you from market volatility. The rate stays locked as long as the deposit is confirmed within 30 minutes.'
-  const floatingRateDescription =
-    'With the floating rate option, the final amount of cryptocurrency you receive may be greater or less than the original estimate due to changes in market prices.'
+  const fixedRateDescription = computed(() => t('rate.fixed_rate_description'))
+  const floatingRateDescription = computed(() => t('rate.floating_rate_description'))
 
   const description = computed(() => {
-    if (!value.value) return fixedRateDescription
-    return floatingRateDescription
+    if (!value.value) return fixedRateDescription.value
+    return floatingRateDescription.value
   })
 </script>
 

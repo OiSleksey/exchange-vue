@@ -1,81 +1,8 @@
 <script setup lang="ts">
-  const list = [
-    {
-      name: 'Pavel, Startup Founder',
-      review: '"Tested 5 different exchangers — this one turned out to be the fastest."',
-      avatar: '/img/reviews/avatar-1.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-    {
-      name: 'Arina, Student',
-      review: '"I move coins between wallets — it’s always quick and stress-free."',
-      avatar: '/img/reviews/avatar-2.jpg',
-      platform: '/img/reviews/platform-2.png',
-    },
-    {
-      name: 'Stepan, DevOps Engineer',
-      review: '"No KYC needed — that’s a win. Plus, love the unique pairs like SOL ↔ TRX."',
-      avatar: '/img/reviews/avatar-3.jpg',
-      platform: '/img/reviews/platform-2.png',
-    },
-    {
-      name: 'SatoshiPlay, Blogger',
-      review: '"Trusted exchange. Was skeptical at first — now I recommend it to my followers."',
-      avatar: '/img/reviews/avatar-4.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-    {
-      name: 'Alexander, Game Developer',
-      review: '"Swapped BTC to USDT in 10 minutes. Impressed there’s no verification needed."',
-      avatar: '/img/reviews/avatar-5.jpg',
-      platform: '/img/reviews/platform-3.png',
-    },
-    {
-      name: 'Danil, Analyst',
-      review:
-        '"Third exchange this week — smooth every time. They don’t even store wallet addresses."',
-      avatar: '/img/reviews/avatar-6.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-    {
-      name: 'Elena V., HR Manager',
-      review: 'Friends recommended it. Now I’m sending links to my colleagues too."',
-      avatar: '/img/reviews/avatar-7.jpg',
-      platform: '/img/reviews/platform-3.png',
-    },
-    {
-      name: 'Max DeFi, Crypto Enthusiast',
-      review:
-        '"I like that you instantly see how much you’ll receive. No surprises from volatility."',
-      avatar: '/img/reviews/avatar-8.jpg',
-      platform: '/img/reviews/platform-2.png',
-    },
-    {
-      name: 'Igor, Freelancer',
-      review:
-        '"Exchanged USDT to BNB in 7 minutes. Surprised how simple it was. Highly recommend!"',
-      avatar: '/img/reviews/avatar-9.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-    {
-      name: 'Maria, Marketing Specialist',
-      review: '"Use it regularly. One of the most honest exchanges I’ve tried. Never let me down."',
-      avatar: '/img/reviews/avatar-10.jpg',
-      platform: '/img/reviews/platform-3.png',
-    },
-    {
-      name: 'Artem, Crypto Trader',
-      review: '"Great rates and a clean interface. Support responds quickly."',
-      avatar: '/img/reviews/avatar-11.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-    {
-      name: 'Natali, UI Designer',
-      review: '"Perfect for quick small exchanges. No login required — love it."',
-      avatar: '/img/reviews/avatar-12.jpg',
-      platform: '/img/reviews/platform-1.png',
-    },
-  ]
+  import { useI18n } from 'vue-i18n'
+  import { computed } from 'vue'
+
+  const { t } = useI18n()
 
   function shuffleArray<T>(array: T[]): T[] {
     const result = JSON.parse(JSON.stringify(array))
@@ -86,18 +13,38 @@
     return result
   }
 
-  const randomList = shuffleArray(list)
+  const list = computed(()=> {
+    return shuffleArray(Array.from({ length: 12 }, (_, i) => {
+      const index = i + 1
+      return {
+        name: t(`reviews.${index}.name`),
+        review: t(`reviews.${index}.text`),
+        avatar: `/img/reviews/avatar-${index}.jpg`,
+        platform: `/img/reviews/platform-${[1, 2, 2, 1, 3, 1, 3, 2, 1, 3, 1, 1][i]}.png`
+      }
+    }))
+  })
 
-  const countByRow = Math.floor(list.length / 3)
 
-  const firstRow = randomList.slice(0, countByRow)
-  const secondRow = randomList.slice(countByRow, countByRow * 2)
-  const thirdRow = randomList.slice(countByRow * 2, countByRow * 3)
+
+  const countByRow = Math.floor(list.value.length / 3)
+
+  const firstRow = computed(()=> {
+    return list.value.slice(0, countByRow)
+  })
+
+  const secondRow = computed(()=> {
+    return list.value.slice(countByRow, countByRow * 2)
+  })
+
+  const thirdRow = computed(()=> {
+    return list.value.slice(countByRow * 2, countByRow * 3)
+  })
 </script>
 
 <template>
   <div class="user-reviews">
-    <h2 class="user-reviews__header">User Reviews</h2>
+    <h2 class="user-reviews__header">{{ t('user_reviews_header') }}</h2>
     <div class="user-reviews__body">
       <div class="user-reviews__list">
         <div class="user-reviews__card" v-for="(item, index) in firstRow" :key="index">

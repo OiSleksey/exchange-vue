@@ -3,6 +3,9 @@
   import SupportButton from '@/components/base/buttons/SupportButton.vue'
   import TelegramButton from '@/components/base/buttons/TelegramButton.vue'
   import { useNavigation } from '@/composables/navigation.ts'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
@@ -26,13 +29,13 @@
             <LogoComponent variant="light" />
           </div>
           <div class="office">
-            <div class="office__name">Safelement Limited,</div>
+            <div class="office__name">{{ t('footer_office_name') }}</div>
             <div class="office__location">
-              Office 1111, Suite 1102, Lee Garden One, 33 Hysan Avenue, Causeway Bay, Hong Kong
+              {{ t('footer_office_location') }}
             </div>
           </div>
           <div class="contacts">
-            <SupportButton @click="navigateToSupport()" />
+            <SupportButton @click="navigateToSupport()" >{{ t('header_menu_support') }}</SupportButton>
             <TelegramButton @click="navigateToSupport()" />
           </div>
         </div>
@@ -49,8 +52,8 @@
           <span>©</span> <span>2025</span> <span>GlobalEx</span>
         </div>
         <div class="footer__links">
-          <a class="user-agreement" href="#">Terms of Use</a>
-          <a class="privacy-policy" href="#">Privacy Policy</a>
+          <a class="user-agreement" href="#">{{ t('footer_terms') }}</a>
+          <a class="privacy-policy" href="#">{{ t('footer_privacy') }}</a>
         </div>
       </div>
     </div>

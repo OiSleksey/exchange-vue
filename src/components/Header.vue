@@ -4,6 +4,10 @@
   import LogoComponent from '@/components/base/LogoComponent.vue'
   import BurgerButton from '@/components/base/buttons/BurgerButton.vue'
   import { useNavigation } from '@/composables/navigation.ts'
+  import { useI18n } from 'vue-i18n'
+  import SwitcherLang from '@/components/base/SwitcherLang.vue'
+
+  const { t } = useI18n()
 
   const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
@@ -17,8 +21,13 @@
     <div class="header__container">
       <LogoComponent variant="dark" />
       <div class="header__controls desktop">
-        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome" />
-        <PrimaryButton @click="navigateToSupport" />
+        <SwitcherLang />
+        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome">
+          {{ t('header_menu_home') }}
+        </OutlineButton>
+        <PrimaryButton @click="navigateToSupport">
+          {{ t('header_menu_support') }}
+        </PrimaryButton>
       </div>
       <div class="header__controls mobile">
         <BurgerButton :is-display-dashboard="isDisplayDashboard" />

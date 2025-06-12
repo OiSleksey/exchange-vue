@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import type { CollapseModelValue } from 'element-plus'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
   const list = [
     {
@@ -36,18 +38,18 @@
 <template>
   <div class="faq">
     <div class="faq__container">
-      <h2 class="faq__header">FAQ — Frequently Asked Questions</h2>
+      <h2 class="faq__header">{{ t('faq_header') }}</h2>
       <div class="faq__content">
         <div class="faq__collapse">
           <el-collapse v-model="activeNames" @change="handleChange">
             <el-collapse-item
               v-for="item in list"
-              :title="item.title"
+              :title="t('faq_' + item.id + '_title')"
               :name="item.id"
               :key="item.id"
             >
               <div class="el-collapse-item__description">
-                {{ item.description }}
+                {{ t('faq_' + item.id + '_desc') }}
               </div>
             </el-collapse-item>
           </el-collapse>

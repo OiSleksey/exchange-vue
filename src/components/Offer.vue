@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, reactive, onMounted } from 'vue'
+  import { ref, reactive, onMounted, computed } from 'vue'
   import { useStore } from '@/store/store.ts'
   import axios from 'axios'
   import { storeToRefs } from 'pinia'
@@ -10,6 +10,10 @@
   import { useRouter } from 'vue-router'
   import type { FormInstance, FormRules } from 'element-plus'
   import { useNavigation } from '@/composables/navigation.ts'
+
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
@@ -40,55 +44,28 @@
     toCoin.value = item
   }
 
-  const submitExchange = async () => {
-    router.push('/convert')
-    return null
-    if (!state.amount || state.amount <= 0) return
+  const track = computed(()=> {
+    return [
+      {
+        title: t("convert_hero_1_stack"),
+        isActive: true,
+      },
+      {
+        title: t("convert_hero_2_stack"),
+        isActive: false,
+      },
+      {
+        title: t("convert_hero_3_stack"),
+        isActive: false,
+      },
+      {
+        title: t("convert_hero_4_stack"),
+        isActive: false,
+      },
+    ]
 
-    const coinGeckoIds = {
-      BTC: 'bitcoin',
-      ETH: 'ethereum',
-      USDT: 'tether',
-    }
 
-    try {
-      const cryptoId = coinGeckoIds[state.crypto]
-      const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price`, {
-        params: {
-          ids: cryptoId,
-          vs_currencies: state.fiat.toLowerCase(),
-        },
-      })
-      state.exchangeRate = response.data[cryptoId][state.fiat.toLowerCase()]
-      state.convertedAmount = state.amount * state.exchangeRate
-      // const url = 'https://t.me/your_operator_username';
-      // window.open(url, '_blank');
-    } catch (error) {
-      console.error(error?.message || error)
-      state.exchangeRate = null
-      state.convertedAmount = null
-    }
-  }
-
-  const track = [
-    {
-      title: '1. Details',
-      isActive: true,
-    },
-    {
-      title: '2. Deposit',
-      isActive: false,
-    },
-    {
-      title: '3. Confirmation',
-      isActive: false,
-    },
-    {
-      title: '4. Exchange',
-      isActive: false,
-    },
-  ]
-
+  })
   const form = reactive({
     address: '',
   })
@@ -159,8 +136,8 @@
       </div>
     </div>
 
-    <div class="offer__header">Cryptocurrency Converter</div>
-    <div class="offer__description">1. Select the coins to exchange and enter the amount</div>
+    <div class="offer__header">{{t('convert_hero_title')}}</div>
+    <div class="offer__description">{{t('convert_hero_1_select')}}</div>
     <div class="exchange-form">
       <div class="exchange-form__wrapper">
         <template v-if="!isReverse">
@@ -217,8 +194,8 @@
         label-width="auto"
         class="exchange-form__form"
       >
-        <el-form-item label="Enter XMR Address" label-position="top" prop="address">
-          <el-input v-model="form.address" placeholder="Enter the address here" />
+        <el-form-item :label="t('convert_address_label')" label-position="top" prop="address">
+          <el-input v-model="form.address" :placeholder="t('convert_address_placeholder')" />
         </el-form-item>
 
         <div class="floating-rate">
@@ -227,7 +204,6 @@
 
         <PrimaryButton
           text="Exchange"
-          @click="submitExchange"
           class="exchange-form__button"
           @click.prevent="
             (event) => {
@@ -235,7 +211,7 @@
             }
           "
           :disabled="isLoading"
-        />
+        >      {{ t("exchange_button") }}</PrimaryButton>
       </el-form>
     </div>
   </div>

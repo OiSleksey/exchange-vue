@@ -21,7 +21,7 @@
       </defs>
     </svg>
     <span>
-      {{ text }}
+      <slot></slot>
     </span>
   </button>
 </template>

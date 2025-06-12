@@ -92,7 +92,7 @@ const fiatCodesListAll = [
   'huf',
 ]
 
-const fiatCodesList = ['usd', 'eur']
+const fiatCodesList = ['usd', 'eur', 'rub', 'uah',]
 
 interface CryptoList {
   id: string

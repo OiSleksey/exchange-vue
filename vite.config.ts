@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 
 const version = Date.now()
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), 
+    vueI18n({
+    include: path.resolve(__dirname, './locales/**'), // путь к JSON/JS-файлам перевода
+  }),],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

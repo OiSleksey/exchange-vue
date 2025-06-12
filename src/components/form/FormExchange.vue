@@ -9,6 +9,9 @@
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useRouter } from 'vue-router'
   import { useNavigation } from '@/composables/navigation.ts'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const { navigateToSupport, navigateToConvert, navigateToHome } = useNavigation()
 
@@ -131,7 +134,9 @@
       <SwitcherBase v-model="floatingRate" />
     </div>
 
-    <PrimaryButton text="Exchange" @click="navigateToSupport" class="exchange-form__button" />
+    <PrimaryButton  @click="navigateToSupport" class="exchange-form__button" >
+      {{ t("exchange_button") }}
+    </PrimaryButton>
   </div>
 </template>
 

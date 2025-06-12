@@ -1,8 +1,10 @@
 <script setup lang="ts">
   import FormExchange from '@/components/form/FormExchange.vue'
   import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
-  //Dialog
+  const { t } = useI18n()
+    //Dialog
   const centerDialogVisible = ref(false)
   const isSuccessRequest = ref(false)
 
@@ -17,11 +19,10 @@
     <div class="hero__container">
       <div class="hero__offer">
         <h1 class="hero__header">
-          Exchange cryptocurrency easily, quickly, and with no hidden fees.
+          {{ t('hero_header') }}
         </h1>
-        <p class="hero__description">
-          <span>GlobalE</span> is an anonymous and instant cryptocurrency exchange. Over 1,000
-          trading pairs, fixed rates, and <span>24/7 support.</span>
+        <p class="hero__description" >
+          <span>{{t('hero_description_logo')}}</span> {{t('hero_description')}} <span>{{t('hero_description_logo')}}</span>
         </p>
       </div>
       <div class="hero__form" id="form-message">
@@ -31,7 +32,7 @@
   </section>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
   .hero {
     position: relative;
     padding: 70px 20px;
@@ -70,7 +71,7 @@
 
       @include respond(xl) {
         flex-direction: row;
-        gap: 20px;
+        gap: 132px;
       }
     }
 
