@@ -4,7 +4,7 @@
   import { storeToRefs } from 'pinia'
 
   const store = useStore()
-  const { isReverse, fromAmount, toAmount, fromCoin, toCoin } = storeToRefs(store)
+  const { isReverse, fromAmount, toAmount, fromCoin, toCoin, floatingRate } = storeToRefs(store)
   // document.documentElement.classList.add('dark')
 
   // import { useHead } from 'unhead'
@@ -96,6 +96,22 @@
   watch(fromAmount, (newValue) => {
     if (!isReverse.value) {
       setExchange(isReverse.value)
+    }
+  })
+
+  watch(floatingRate, (newValue) => {
+    if (newValue) {
+      if (!isReverse.value) {
+        toAmount.value = toAmount.value * 1.013
+      } else {
+        fromAmount.value = fromAmount.value * 1.013
+      }
+    } else {
+      if (!isReverse.value) {
+        toAmount.value = toAmount.value / 1.013
+      } else {
+        fromAmount.value = fromAmount.value / 1.013
+      }
     }
   })
 
