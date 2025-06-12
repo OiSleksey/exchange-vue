@@ -14,8 +14,10 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import './assets/styles/index.scss'
 import messages from './locales'
 
-const savedLocale = localStorage.getItem('locale') || 'en'
-
+let savedLocale = "en"
+if (typeof window !== "undefined") {
+  savedLocale = localStorage.getItem("locale") || "en"
+}
 const i18n = createI18n({
   locale: savedLocale,
   fallbackLocale: savedLocale,

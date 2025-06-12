@@ -247,13 +247,13 @@
 
       color: #f8f8f8;
       text-align: center;
-      font-size: 48px;
+      font-size: 32px;
       font-style: normal;
       font-weight: 500;
       line-height: 56px;
 
-      @include respond(xl) {
-        margin-bottom: 50px;
+      @include respond(md) {
+        margin-bottom: 48px;
       }
 
       @include respond(2xl) {
@@ -266,10 +266,15 @@
 
       color: #f8f8f8;
       text-align: center;
-      font-size: 28px;
+      font-size: 20px;
       font-style: normal;
       font-weight: 500;
       line-height: 1.2;
+
+      @include respond(md) {
+        margin-bottom: 30px;
+        font-size: 28px;
+      }
 
       @include respond(xl) {
         margin-bottom: 30px;

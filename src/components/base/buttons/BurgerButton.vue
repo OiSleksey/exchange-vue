@@ -4,6 +4,7 @@
   import PrimaryButton from '@/components/base/buttons/PrimaryButton.vue'
   import { useNavigation } from '@/composables/navigation.ts'
   import { useI18n } from 'vue-i18n'
+  import { ElPopover } from 'element-plus'
 
   const { t } = useI18n()
 
@@ -16,10 +17,17 @@
   defineEmits(['click'])
 
   const isShow = ref<boolean>(false)
+
+  const burgerPopover = ref<InstanceType<typeof ElPopover> | null>(null)
+
+  const closePopover = () => {
+    burgerPopover.value?.hide()
+  }
 </script>
 
 <template>
   <el-popover
+    ref="burgerPopover"
     placement="bottom"
     :width="255"
     trigger="click"
@@ -65,12 +73,12 @@
     </template>
     <template #default>
       <div class="burger-content">
-        <PrimaryButton @click="navigateToSupport" >
-          {{ t('header_menu_home') }}
-        </PrimaryButton>
-        <OutlineButton v-if="isDisplayDashboard" @click="navigateToHome" >
+        <OutlineButton  @click="() => {closePopover(); navigateToSupport() }">
           {{ t('header_menu_partner') }}
         </OutlineButton>
+        <PrimaryButton @click="() => {closePopover(); navigateToHome() }" v-if="isDisplayDashboard" >
+          {{ t('header_menu_home') }}
+        </PrimaryButton>
       </div>
     </template>
   </el-popover>

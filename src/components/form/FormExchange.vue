@@ -134,7 +134,7 @@
       <SwitcherBase v-model="floatingRate" />
     </div>
 
-    <PrimaryButton  @click="navigateToSupport" class="exchange-form__button" >
+    <PrimaryButton  @click="navigateToConvert" class="exchange-form__button" >
       {{ t("exchange_button") }}
     </PrimaryButton>
   </div>

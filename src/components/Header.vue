@@ -30,6 +30,7 @@
         </PrimaryButton>
       </div>
       <div class="header__controls mobile">
+        <SwitcherLang />
         <BurgerButton :is-display-dashboard="isDisplayDashboard" />
       </div>
     </div>

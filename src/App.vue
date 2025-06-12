@@ -39,14 +39,12 @@
 
           if (fromId && toId) {
             const rate = await store.submitExchange(fromId, toId)
-            toAmount.value = rate
             if (typeof rate === 'number') {
               toAmount.value = amount * rate
             }
           }
         } else {
           const amount = toAmount.value || 0
-
           if (!amount) {
             fromAmount.value = 0
             return

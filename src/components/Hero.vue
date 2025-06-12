@@ -22,7 +22,7 @@
           {{ t('hero_header') }}
         </h1>
         <p class="hero__description" >
-          <span>{{t('hero_description_logo')}}</span> {{t('hero_description')}} <span>{{t('hero_description_logo')}}</span>
+          <span>{{t('hero_description_logo')}}</span> {{t('hero_description')}} <span>{{t('hero_description_support')}}</span>
         </p>
       </div>
       <div class="hero__form" id="form-message">
@@ -43,13 +43,13 @@
     }
 
     @include respond(xl) {
-      padding: 108px 52px;
+      padding: 108px 22px;
       max-width: $max-width-container-3xl;
       margin: 0 auto;
     }
 
     @include respond(3xl) {
-      padding: 54px 116px;
+      padding: 108px 22px;
     }
 
     &__container {
@@ -58,7 +58,7 @@
       justify-content: space-between;
       position: relative;
       margin: 0 auto;
-      gap: 20px;
+      gap: 52px;
       flex-direction: column;
 
       @include respond(md) {
@@ -98,13 +98,18 @@
       //padding: 0 90px;
       display: flex;
       flex-direction: column;
-      gap: 60px;
+      gap: 20px;
       justify-content: center;
       //align-items: center;
 
       @include respond(md) {
         height: 470px;
+        gap: 32px;
         //align-items: stretch;
+      }
+
+      @include respond(xl) {
+        gap: 60px;
       }
     }
 
@@ -119,9 +124,9 @@
         height: 470px;
       }
 
-      @include respond(xl) {
-        height: 470px;
-      }
+      //@include respond(xl) {
+      //  height: 534px;
+      //}
     }
 
     &__header {
